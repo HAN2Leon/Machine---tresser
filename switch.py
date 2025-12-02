@@ -7,7 +7,7 @@ time_wait_MAX = 3
 DEADZONE = 0.03
 
 # ==== Définition des broches GPIO (numérotation BCM) ====
-PUL = 14    # Broche connectée à PUL- du driver DM542T
+PUL = [14, 23, 24]    # Broche connectée à PUL- du driver DM542T
 DIR = 15    # Broche connectée à DIR- du driver DM542T
 
 # ==== Paramètres du moteur ====
@@ -21,7 +21,9 @@ PULSE = 0.000008   # Durée du niveau haut (8µs)
 
 # ==== Initialisation du GPIO ====
 GPIO.setmode(GPIO.BCM)      # Utiliser la numérotation BCM des broches
-GPIO.setup(PUL, GPIO.OUT)   # Déclarer la broche PUL en sortie
+GPIO.setup(PUL[0], GPIO.OUT)   # Déclarer la broche PUL en sortie
+GPIO.setup(PUL[1], GPIO.OUT)
+GPIO.setup(PUL[2], GPIO.OUT)
 GPIO.setup(DIR, GPIO.OUT)   # Déclarer la broche DIR en sortie
 
 # ==== Définir le sens de rotation ====
@@ -47,6 +49,7 @@ def log_map(val, vmin=0, vmax=1023):
 
 raw = 0
 time_wait = 0
+i=0
 # time_wait = 0.2
 #temps attente entre 2 rotation
 try:
@@ -55,9 +58,9 @@ try:
         # --- Génération des impulsions pour un demi-tour ---
         print("TOUR :", HALF_TURN_STEPS)
         for _ in range(HALF_TURN_STEPS):
-            GPIO.output(PUL, GPIO.HIGH)   # front montant
+            GPIO.output(PUL[i%3], GPIO.HIGH)   # front montant
             time.sleep(PULSE)
-            GPIO.output(PUL, GPIO.LOW)    # front descendant
+            GPIO.output(PUL[i%3], GPIO.LOW)    # front descendant
             time.sleep(PULSE)
             
         raw = read_adc(0)
@@ -65,6 +68,7 @@ try:
         time_wait = log_map(raw)
         time.sleep(time_wait)
         
+        i+=1
         print("Temps de rotation :", PULSE*HALF_TURN_STEPS*2, "Time wait : ", time_wait)
         
 except KeyboardInterrupt:
