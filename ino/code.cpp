@@ -9,7 +9,7 @@ const float DEADZONE      = 0.03f;
 const uint16_t MICROSTEP        = 3200;
 const uint16_t HALF_TURN_STEPS  = MICROSTEP / 2;
 
-const uint16_t PULSE_US = 800; // µm
+const uint16_t PULSE_US = 8; // µm
 
 const uint8_t PUL_PINS[3] = {2, 3, 4};
 const uint8_t DIR_PIN      = 5;
@@ -101,7 +101,6 @@ void loop()
         delayMicroseconds(PULSE_US);
     }
 
-/*
     uint16_t raw = readAdc(0);
     Serial.print("ADC value: ");
     Serial.println(raw);
@@ -109,16 +108,13 @@ void loop()
     float timeWait = logMap(raw);
     Serial.print("Time wait (s): ");
     Serial.println(timeWait, 4);
-*/
-    delay(10000);
+
     float rotationTime = (PULSE_US * 1e-6f) * HALF_TURN_STEPS * 2.0f;
     Serial.print("Rotation time (s): ");
     Serial.println(rotationTime, 6);
 
-/*
     if (timeWait > 0.0f) {
         delay((unsigned long)(timeWait * 1000.0f));// milli-second
     }
-*/
     ++i;
 }
