@@ -18,7 +18,14 @@ void setup()
 void loop()
 {
     static uint32_t i = 0;
-    uint8_t pulIndex = i % 3;
+    
+    static const uint8_t pulSeq[9] = {
+        1, 2, 0,   // 231
+        2, 0, 1,   // 312
+        0, 1, 2    // 123
+    };
+
+    uint8_t pulIndex = pulSeq[i % 9];
 
     for (uint16_t step = 0; step < HALF_TURN_STEPS; ++step) {
         digitalWrite(PUL_PINS[pulIndex], HIGH);      // front montant

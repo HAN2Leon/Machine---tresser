@@ -11,9 +11,9 @@ const uint16_t HALF_TURN_STEPS  = MICROSTEP / 2;
 
 const uint16_t PULSE_US = 8; // µm
 
-const uint8_t PUL_PINS[3] = {2, 3, 4};
-const uint8_t DIR_PIN      = 5;
-const uint8_t ADC_CS_PIN = 10;
+const uint8_t PUL_PINS[3] = {0, 1, 2};
+const uint8_t DIR_PIN      = 3
+const uint8_t ADC_CS_PIN = 7;
 
 SPISettings adcSpiSettings(100000, MSBFIRST, SPI_MODE0); // 100kHz, mode 0
 
